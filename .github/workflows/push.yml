@@ -1,0 +1,31 @@
+name: Push Files to Another Branch
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  push_files:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Copy files to new branch
+        run: |
+          # Create a new branch (replace `new-branch` with the desired branch name)
+          git checkout -b hallo
+
+          # Copy files from source folder to the root directory (replace `source_folder` with the name of your source folder)
+          cp -r combined/* .
+
+          # Add all files to the staging area
+          git add .
+
+          # Commit changes
+          git commit -m "Copy files to new branch"
+
+          # Push changes to the new branch (replace `origin` with your remote name)
+          git push origin hallo
