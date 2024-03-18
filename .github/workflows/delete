@@ -1,4 +1,4 @@
-name: Delete files and create folder
+name: Delete files and create empty folder
 
 on:
   push:
@@ -12,6 +12,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
+      # Delete files job
       - name: Delete files
         run: |
           # Navigate to the specified folder
@@ -20,23 +21,19 @@ jobs:
           # Delete all files in the folder while keeping the folder itself
           rm -rf ./*
 
-      - name: Create new folder
+      # Create empty folder job
+      - name: Create empty folder
+        env:
+          FOLDER_NAME: "combined" # Default folder name
         run: |
-          TOKEN="${{ secrets.mytoken }}"
-          OWNER="matze2402"
-          REPO="test"
-          FOLDER_NAME="combined"
+          mkdir -p $FOLDER_NAME
+          touch $FOLDER_NAME/.gitkeep
 
-          # Create new folder using GitHub API
-          curl -X POST \
-            -H "Authorization: token $TOKEN" \
-            -d '{"name":"'$FOLDER_NAME'","auto_init":false}' \
-            "https://api.github.com/repos/$OWNER/$REPO/contents/$FOLDER_NAME"
-
+      # Commit changes job
       - name: Commit changes
         run: |
           git config --local user.email "actions@github.com"
           git config --local user.name "matze2402"
           git add -A
-          git commit -m "Delete all files from specified folder and create new folder"
+          git commit -m "Delete all files from specified folder and create empty folder $FOLDER_NAME"
           git push
