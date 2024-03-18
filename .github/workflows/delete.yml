@@ -1,4 +1,4 @@
-name: Delete files from folder
+name: Delete files and create folder
 
 on:
   push:
@@ -6,7 +6,7 @@ on:
       - main
 
 jobs:
-  delete_files:
+  delete_files_and_create_folder:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -15,15 +15,28 @@ jobs:
       - name: Delete files
         run: |
           # Navigate to the specified folder
-          cd main/combined
+          cd combined
 
           # Delete all files in the folder while keeping the folder itself
           rm -rf ./*
 
+      - name: Create new folder
+        run: |
+          TOKEN="${{ secrets.mytoken }}"
+          OWNER="matze2402"
+          REPO="test"
+          FOLDER_NAME="combined"
+
+          # Create new folder using GitHub API
+          curl -X POST \
+            -H "Authorization: token $TOKEN" \
+            -d '{"name":"'$FOLDER_NAME'","auto_init":false}' \
+            "https://api.github.com/repos/$OWNER/$REPO/contents/$FOLDER_NAME"
+
       - name: Commit changes
         run: |
           git config --local user.email "actions@github.com"
-          git config --local user.name "GitHub Actions"
+          git config --local user.name "matze2402"
           git add -A
-          git commit -m "Delete all files from specified folder"
+          git commit -m "Delete all files from specified folder and create new folder"
           git push
