@@ -15,7 +15,7 @@ jobs:
       - name: Delete files
         run: |
           # Navigate to the specified folder
-          cd combined
+          cd test/combined
 
           # Delete all files in the folder while keeping the folder itself
           rm -rf ./*
