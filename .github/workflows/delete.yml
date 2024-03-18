@@ -23,7 +23,7 @@ jobs:
       - name: Commit changes
         run: |
           git config --local user.email "actions@github.com"
-          git config --local user.name "matze2402"
+          git config --local user.name "GitHub Actions"
           git add -A
           git commit -m "Delete all files from specified folder"
           git push
