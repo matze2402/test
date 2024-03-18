@@ -18,6 +18,9 @@ jobs:
           # Create a new branch (replace `new-branch` with the desired branch name)
           git checkout -b hallo
 
+          git config --global user.email "you@example.com"
+          git config --global user.name "Matze2402"
+
           # Copy files from source folder to the root directory (replace `source_folder` with the name of your source folder)
           cp -r combined/* .
 
