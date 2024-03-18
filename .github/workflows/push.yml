@@ -1,34 +1,24 @@
-name: Push Files to Another Branch
+name: Copy folder to other branch
 
-on:
-  push:
-    branches:
-      - main
+on: [push]
 
 jobs:
-  push_files:
+  copy:
+    name: Copy my folder
     runs-on: ubuntu-latest
-    
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
-
-      - name: Copy files to new branch
+      - uses: actions/checkout@v2
+      - name: copy
+        env:
+          SRC_FOLDER_PATH: 'combined'
+          TARGET_BRANCH: 'hallo'
         run: |
-          # Create a new branch (replace `new-branch` with the desired branch name)
-          git checkout -b hallo
-
-          git config --global user.email "you@example.com"
-          git config --global user.name "Matze2402"
-
-          # Copy files from source folder to the root directory (replace `source_folder` with the name of your source folder)
-          cp -r combined/* .
-
-          # Add all files to the staging area
-          git add .
-
-          # Commit changes
-          git commit -m "Copy files to new branch"
-
-          # Push changes to the new branch (replace `origin` with your remote name)
-          git push origin hallo
+          files=$(find $SRC_FOLDER_PATH -type f) # get the file list
+          git config --global user.name 'GitHub Action'
+          git config --global user.email 'MAtze2402'
+          git fetch                         # fetch branches
+          git checkout $TARGET_BRANCH       # checkout to your branch
+          git checkout ${GITHUB_REF##*/} -- $files # copy files from the source branch
+          git add -A
+          git diff-index --quiet HEAD ||  git commit -am "deploy files"  # commit to the repository (ignore if no modification)
+          git push origin $TARGET_BRANCH # push to remote branch
