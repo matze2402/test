@@ -1,7 +1,6 @@
 import os
 import yaml
 
-
 def generate_sidebar(folder_path):
     entries = []
 
@@ -9,7 +8,11 @@ def generate_sidebar(folder_path):
     for root, dirs, files in os.walk(folder_path):
         for file in files:
             if file.endswith(".md"):
-                entry = {"title": os.path.splitext(file)[0], "url": os.path.join(root, file), "output": "pdf"}
+                # Extrahiere den Dateinamen und den Ordnerpfad
+                filename, file_extension = os.path.splitext(file)
+                folder = os.path.basename(root)
+                # Füge die Daten zur Sidebar hinzu
+                entry = {"title": filename, "url": os.path.join(root, file), "output": "pdf"}
                 entries.append(entry)
 
     # Erstelle die YAML-Struktur
@@ -26,4 +29,4 @@ if __name__ == "__main__":
 
     # Speichere die Sidebar-Daten in einer YAML-Datei
     with open("sidebar_data.yaml", "w") as file:
-        yaml.dump(sidebar_data, file)
+        yaml.dump(sidebar_data, file, default_flow_style=False, sort_keys=False)
