@@ -10,13 +10,16 @@ def generate_sidebar(folder_path):
             if file.endswith(".md"):
                 # Extrahiere den Dateinamen und den Ordnerpfad
                 filename, file_extension = os.path.splitext(file)
-                folder = os.path.basename(root)
+                folder = os.path.relpath(root, folder_path)
                 # Füge die Daten zur Sidebar hinzu
-                entry = {"title": filename, "url": os.path.join(root, file), "output": "pdf"}
+                entry = {"title": filename, "url": os.path.join(folder, file), "output": "pdf"}
                 entries.append(entry)
 
+    # Sortiere die Einträge alphabetisch nach dem Titel
+    sorted_entries = sorted(entries, key=lambda x: x["title"])
+
     # Erstelle die YAML-Struktur
-    sidebar_data = {"entries": entries}
+    sidebar_data = {"entries": sorted_entries}
 
     return sidebar_data
 
