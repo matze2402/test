@@ -65,6 +65,9 @@ entries:
 - title: VIMMP
   url: ./VIMMP.md
   output: pdf
+- title: hfuisf
+  url: test/hfuisf.md
+  output: pdf
 - title: metadata4ing
   url: ./metadata4ing.md
   output: pdf
