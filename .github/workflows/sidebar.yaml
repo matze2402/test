@@ -1,32 +1,37 @@
-import os
-import yaml
+name: Generate Sidebar YAML
 
-def generate_sidebar(folder_path):
-    entries = []
+on:
+  push:
+    branches:
+      - main  # Anpassen Sie den Branch-Namen entsprechend Ihrem Repository
 
-    # Durchsuche den Ordner nach Markdown-Dateien
-    for root, dirs, files in os.walk(folder_path):
-        for file in files:
-            if file.endswith(".md"):
-                # Extrahiere den Dateinamen und den Ordnerpfad
-                filename, file_extension = os.path.splitext(file)
-                folder = os.path.relpath(root, folder_path)
-                # Füge die Daten zur Sidebar hinzu
-                entry = {"title": filename, "url": os.path.join(folder, file), "output": "pdf"}
-                entries.append(entry)
+jobs:
+  generate_sidebar:
+    runs-on: ubuntu-latest
 
-    # Erstelle die YAML-Struktur
-    sidebar_data = {"entries": entries}
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
 
-    return sidebar_data
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.x'
 
-if __name__ == "__main__":
-    # Passe den Ordnerpfad entsprechend deiner Struktur an
-    folder_path = "files"
-    
-    # Generiere die Sidebar-Daten
-    sidebar_data = generate_sidebar(folder_path)
+      - name: Install dependencies
+        run: pip install PyYAML  # Installieren Sie die erforderlichen Abhängigkeiten
 
-    # Speichere die Sidebar-Daten in einer YAML-Datei
-    with open("sidebar_data.yaml", "w") as file:
-        yaml.dump(sidebar_data, file, default_flow_style=False, sort_keys=False)
+      - name: Generate Sidebar
+        run: python generate_sidebar.py  # Anpassen des Skriptnamens, falls erforderlich
+
+      - name: Commit Changes
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add sidebar_data.yaml  # Anpassen des Dateinamens der generierten YAML-Datei
+          git commit -m "Update sidebar YAML"
+      
+      - name: Push Changes
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}  # Verwenden Sie das GitHub-Token, um Änderungen hochzuladen
