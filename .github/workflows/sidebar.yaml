@@ -21,10 +21,52 @@ jobs:
       - name: Install dependencies
         run: pip install PyYAML  # Installieren Sie die erforderlichen Abhängigkeiten
 
-      # Fügen Sie hier die statischen Werte ein
-      - name: Create static values
-        run: |
-          echo "- title: sidebar\n  product: Software Tools for NFDI4Cat\n  folders:\n\n  - title:\n    output: pdf\n    type: frontmatter\n    folderitems:\n    - title:\n      url: /titlepage.html\n      output: pdf\n      type: frontmatter\n    - title:\n      url: /tocpage.html\n      output: pdf\n      type: frontmatter\n\n- title: NFDI4Cat\n  output: web, pdf\n  folderitems:\n  - title: Overview\n    url: /mydoc_NFDI4Cat_Overview.html\n    output: web, pdf\n\n- title: Introduction to Github Pages\n  output: web, pdf\n  folderitems:\n  - title: Overview\n    url: /mydoc_Introduction_to_GitHub_Pages.html\n    output: web, pdf\n\n- title: Software Tools\n  output: web, pdf\n  folderitems:\n  - title: Landing Page for Software Tools\n    url: /mydoc_LandingPage.html\n    output: web, pdf\n    subfolders:\n    - title: Software\n      output: web\n      subfolderitems:\n      - title: Protege\n        url: /n4cat_soft_Protege.html\n        output: web\n      - title: Owlready2\n        url: /mydoc_SoftwareTools_Protege.html\n        output: web\n" > sidebar_static.yaml
+    - name: Create static values
+  run: |
+    echo '- title: sidebar
+  product: Software Tools for NFDI4Cat
+  folders:
+    - title:
+        output: pdf
+        type: frontmatter
+        folderitems:
+          - title:
+              url: /titlepage.html
+              output: pdf
+              type: frontmatter
+          - title:
+              url: /tocpage.html
+              output: pdf
+              type: frontmatter
+    - title: NFDI4Cat
+      output: web, pdf
+      folderitems:
+        - title: Overview
+          url: /mydoc_NFDI4Cat_Overview.html
+          output: web, pdf
+    - title: Introduction to Github Pages
+      output: web, pdf
+      folderitems:
+        - title: Overview
+          url: /mydoc_Introduction_to_GitHub_Pages.html
+          output: web, pdf
+    - title: Software Tools
+      output: web, pdf
+      folderitems:
+        - title: Landing Page for Software Tools
+          url: /mydoc_LandingPage.html
+          output: web, pdf
+          subfolders:
+            - title: Software
+              output: web
+              subfolderitems:
+                - title: Protege
+                  url: /n4cat_soft_Protege.html
+                  output: web
+                - title: Owlready2
+                  url: /mydoc_SoftwareTools_Protege.html
+                  output: web' > sidebar_static.yaml
+    echo "..." >> sidebar_static.yaml
 
       - name: Generate Sidebar
         run: |
