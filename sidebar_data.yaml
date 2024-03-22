@@ -1,70 +1,70 @@
 entries:
-- output: pdf
-  title: OM
+- title: OM
   url: files/OM.md
-- output: pdf
-  title: CHMO
+  output: pdf
+- title: CHMO
   url: files/CHMO.md
-- output: pdf
-  title: CAO
+  output: pdf
+- title: CAO
   url: files/CAO.md
-- output: pdf
-  title: MS
+  output: pdf
+- title: MS
   url: files/MS.md
-- output: pdf
-  title: M3
+  output: pdf
+- title: M3
   url: files/M3.md
-- output: pdf
-  title: CHEMINF
+  output: pdf
+- title: CHEMINF
   url: files/CHEMINF.md
-- output: pdf
-  title: REX
+  output: pdf
+- title: REX
   url: files/REX.md
-- output: pdf
-  title: MOP
+  output: pdf
+- title: MOP
   url: files/MOP.md
-- output: pdf
-  title: VIMMP
+  output: pdf
+- title: VIMMP
   url: files/VIMMP.md
-- output: pdf
-  title: EDAM
+  output: pdf
+- title: EDAM
   url: files/EDAM.md
-- output: pdf
-  title: OSMO
+  output: pdf
+- title: OSMO
   url: files/OSMO.md
-- output: pdf
-  title: CIF
+  output: pdf
+- title: CIF
   url: files/CIF.md
-- output: pdf
-  title: BAO
+  output: pdf
+- title: BAO
   url: files/BAO.md
-- output: pdf
-  title: AFO
+  output: pdf
+- title: AFO
   url: files/AFO.md
-- output: pdf
-  title: ENVO
+  output: pdf
+- title: ENVO
   url: files/ENVO.md
-- output: pdf
-  title: RXNO
+  output: pdf
+- title: RXNO
   url: files/RXNO.md
-- output: pdf
-  title: OBI
+  output: pdf
+- title: OBI
   url: files/OBI.md
-- output: pdf
-  title: EMMO
+  output: pdf
+- title: EMMO
   url: files/EMMO.md
-- output: pdf
-  title: BFO
+  output: pdf
+- title: BFO
   url: files/BFO.md
-- output: pdf
-  title: SBO
+  output: pdf
+- title: SBO
   url: files/SBO.md
-- output: pdf
-  title: OntoCAPE
+  output: pdf
+- title: OntoCAPE
   url: files/OntoCAPE.md
-- output: pdf
-  title: ChEBI
+  output: pdf
+- title: ChEBI
   url: files/ChEBI.md
-- output: pdf
-  title: metadata4ing
+  output: pdf
+- title: metadata4ing
   url: files/metadata4ing.md
+  output: pdf
