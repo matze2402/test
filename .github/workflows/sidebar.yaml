@@ -1,86 +1,32 @@
-name: Generate Sidebar YAML
+import os
+import yaml
 
-on:
-  push:
-    branches:
-      - main  # Anpassen Sie den Branch-Namen entsprechend Ihrem Repository
+def generate_sidebar(folder_path):
+    entries = []
 
-jobs:
-  generate_sidebar:
-    runs-on: ubuntu-latest
+    # Durchsuche den Ordner nach Markdown-Dateien
+    for root, dirs, files in os.walk(folder_path):
+        for file in files:
+            if file.endswith(".md"):
+                # Extrahiere den Dateinamen und den Ordnerpfad
+                filename, file_extension = os.path.splitext(file)
+                folder = os.path.relpath(root, folder_path)
+                # Füge die Daten zur Sidebar hinzu
+                entry = {"title": filename, "url": os.path.join(folder, file), "output": "pdf"}
+                entries.append(entry)
 
-    steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v2
+    # Erstelle die YAML-Struktur
+    sidebar_data = {"entries": entries}
 
-      - name: Set up Python
-        uses: actions/setup-python@v2
-        with:
-          python-version: '3.x'
+    return sidebar_data
 
-      - name: Install dependencies
-        run: pip install PyYAML  # Installieren Sie die erforderlichen Abhängigkeiten
+if __name__ == "__main__":
+    # Passe den Ordnerpfad entsprechend deiner Struktur an
+    folder_path = "files"
+    
+    # Generiere die Sidebar-Daten
+    sidebar_data = generate_sidebar(folder_path)
 
-    - name: Create static values
-  run: |
-    echo '- title: sidebar
-  product: Software Tools for NFDI4Cat
-  folders:
-    - title:
-        output: pdf
-        type: frontmatter
-        folderitems:
-          - title:
-              url: /titlepage.html
-              output: pdf
-              type: frontmatter
-          - title:
-              url: /tocpage.html
-              output: pdf
-              type: frontmatter
-    - title: NFDI4Cat
-      output: web, pdf
-      folderitems:
-        - title: Overview
-          url: /mydoc_NFDI4Cat_Overview.html
-          output: web, pdf
-    - title: Introduction to Github Pages
-      output: web, pdf
-      folderitems:
-        - title: Overview
-          url: /mydoc_Introduction_to_GitHub_Pages.html
-          output: web, pdf
-    - title: Software Tools
-      output: web, pdf
-      folderitems:
-        - title: Landing Page for Software Tools
-          url: /mydoc_LandingPage.html
-          output: web, pdf
-          subfolders:
-            - title: Software
-              output: web
-              subfolderitems:
-                - title: Protege
-                  url: /n4cat_soft_Protege.html
-                  output: web
-                - title: Owlready2
-                  url: /mydoc_SoftwareTools_Protege.html
-                  output: web' > sidebar_static.yaml
-    echo "..." >> sidebar_static.yaml
-
-      - name: Generate Sidebar
-        run: |
-          python generate_sidebar.py
-          cat sidebar_static.yaml sidebar_data.yaml > sidebar_combined.yaml
-
-      - name: Commit Changes
-        run: |
-          git config --local user.email "action@github.com"
-          git config --local user.name "matze2402"
-          git add sidebar_combined.yaml  # Anpassen des Dateinamens der kombinierten YAML-Datei
-          git commit -m "Update sidebar YAML"
-      
-      - name: Push Changes
-        uses: ad-m/github-push-action@master
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+    # Speichere die Sidebar-Daten in einer YAML-Datei
+    with open("sidebar_data.yaml", "w") as file:
+        yaml.dump(sidebar_data, file, default_flow_style=False, sort_keys=False)
