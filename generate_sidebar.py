@@ -9,7 +9,7 @@ def generate_sidebar(folder_path):
     for root, dirs, files in os.walk(folder_path):
         for file in files:
             if file.endswith(".md"):
-                entry = {"title": os.path.splitext(file)[0], "url": os.path.join(root, file)}
+                entry = {"title": os.path.splitext(file)[0], "url": os.path.join(root, file), "output": "pdf"}
                 entries.append(entry)
 
     # Erstelle die YAML-Struktur
