@@ -1,0 +1,37 @@
+name: Generate Sidebar YAML
+
+on:
+  push:
+    branches:
+      - main  # Anpassen Sie den Branch-Namen entsprechend Ihrem Repository
+
+jobs:
+  generate_sidebar:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.x'
+
+      - name: Install dependencies
+        run: pip install PyYAML  # Installieren Sie die erforderlichen Abhängigkeiten
+
+      - name: Generate Sidebar
+        run: python generate_sidebar.py  # Anpassen des Skriptnamens, falls erforderlich
+
+      - name: Commit Changes
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "matze2402"
+          git add sidebar_data.yaml  # Anpassen des Dateinamens der generierten YAML-Datei
+          git commit -m "Update sidebar YAML"
+      
+      - name: Push Changes
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}  # Verwenden Sie das GitHub-Token, um Änderungen hochzuladen
