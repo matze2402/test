@@ -21,17 +21,23 @@ jobs:
       - name: Install dependencies
         run: pip install PyYAML  # Installieren Sie die erforderlichen Abhängigkeiten
 
+      # Fügen Sie hier die statischen Werte ein
+      - name: Create static values
+        run: echo "- title: sidebar\n  product: Software Tools for NFDI4Cat\n  folders:\n\n  - title:\n    output: pdf\n    type: frontmatter\n    folderitems:\n    - title:\n      url: /titlepage.html\n      output: pdf\n      type: frontmatter\n    - title:\n      url: /tocpage.html\n      output: pdf\n      type: frontmatter\n\n- title: NFDI4Cat\n  output: web, pdf\n  folderitems:\n  - title: Overview\n    url: /mydoc_NFDI4Cat_Overview.html\n    output: web, pdf\n\n- title: Introduction to Github Pages\n  output: web, pdf\n  folderitems:\n  - title: Overview\n    url: /mydoc_Introduction_to_GitHub_Pages.html\n    output: web, pdf\n\n- title: Software Tools\n  output: web, pdf\n  folderitems:\n  - title: Landing Page for Software Tools\n    url: /mydoc_LandingPage.html\n    output: web, pdf\n    subfolders:\n    - title: Software\n      output: web\n      subfolderitems:\n      - title: Protege\n        url: /n4cat_soft_Protege.html\n        output: web\n      - title: Owlready2\n        url: /mydoc_SoftwareTools_Protege.html\n        output: web\n" > sidebar_static.yaml
+
       - name: Generate Sidebar
-        run: python generate_sidebar.py  # Anpassen des Skriptnamens, falls erforderlich
+        run: |
+          python generate_sidebar.py
+          cat sidebar_static.yaml sidebar_data.yaml > sidebar_combined.yaml
 
       - name: Commit Changes
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "matze2402"
-          git add sidebar_data.yaml  # Anpassen des Dateinamens der generierten YAML-Datei
+          git add sidebar_combined.yaml  # Anpassen des Dateinamens der kombinierten YAML-Datei
           git commit -m "Update sidebar YAML"
       
       - name: Push Changes
         uses: ad-m/github-push-action@master
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}  # Verwenden Sie das GitHub-Token, um Änderungen hochzuladen
+          github_token: ${{ secrets.GITHUB_TOKEN }}
