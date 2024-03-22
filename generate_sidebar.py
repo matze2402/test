@@ -19,7 +19,7 @@ def generate_sidebar(folder_path):
 
 if __name__ == "__main__":
     # Passe den Ordnerpfad entsprechend deiner Struktur an
-    folder_path = "filesr"
+    folder_path = "files"
     
     # Generiere die Sidebar-Daten
     sidebar_data = generate_sidebar(folder_path)
